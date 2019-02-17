@@ -1,4 +1,5 @@
-# 数据结构
+# 数据结构学习总结
+本人学习慕课网《玩儿转数据结构》课程的总结笔记
 * [概念简介](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Introduction.md)
 * [基础的算法知识]()
 * [线性]()
