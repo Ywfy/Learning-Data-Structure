@@ -1,6 +1,6 @@
 # 数据结构
 * [概念简介](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Introduction.md)
-* 基础的算法知识()[]
+* [基础的算法知识]()
 * [线性]()
   * [数组]()
   * [栈]()
