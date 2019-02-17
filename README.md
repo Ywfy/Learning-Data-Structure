@@ -1,7 +1,6 @@
 # 数据结构学习总结
 本人学习慕课网《玩儿转数据结构》课程的总结笔记
 * [概念简介](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Introduction.md)
-* [简单时间复杂度分析]()
 * [线性]()
   * [数组]()
   * [栈]()
