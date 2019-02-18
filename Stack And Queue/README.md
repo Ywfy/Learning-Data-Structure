@@ -97,3 +97,31 @@ T peek()           O(1)
 int getSize()      O(1)
 boolean isEmpty()  O(1)
 ```
+
+### 使用Java自带的栈实现括号匹配功能
+```
+public static boolean isValid(String s){
+        Stack<Character> stack = new Stack<>();
+        for(int i=0; i<s.length(); i++){
+            char c = s.charAt(i);
+            if(c == '(' || c == '['|| c == '{' ) {
+                stack.push(c);
+            }else{
+                if(stack.isEmpty())
+                    return false;
+
+                char top = stack.pop();
+                if(top == '(' && c == ')')
+                    continue;
+                if(top == '[' && c == ']')
+                    continue;
+                if(top == '{' && c == '}')
+                    continue;
+                //前面三个都不匹配，证明括号配对失败
+                return false;
+            }
+        }
+
+        return stack.isEmpty();
+    }
+```
