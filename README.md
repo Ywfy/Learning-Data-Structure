@@ -1,10 +1,10 @@
 # 数据结构学习总结
 本人学习慕课网《玩儿转数据结构》课程的总结笔记
 * [概念简介](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Introduction.md)
-* [线性]()
+* 线性
   * [数组](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Arrays/README.md)
-  * [栈]()
-  * [队列]()
+  * [栈](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Stack%20And%20Queue/README.md)
+  * [队列](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Stack%20And%20Queue/Queue.md)
   * [链表]()
   * [哈希表]()
 * [树]()
