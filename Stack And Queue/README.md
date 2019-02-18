@@ -1,6 +1,5 @@
-# 栈和队列
+# 栈
 
-## 栈
 原理图<br>
 ![图片无法加载](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Stack%20And%20Queue/z.jpg)<br>
 
@@ -9,14 +8,14 @@
 * 栈是一种后进先出的数据结构
 * Last In First Out(LIFO)
 
-### 栈的运用
+## 栈的运用
 * 撤销
 * 程序调用的系统栈
 
 ![图片无法加载](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Stack%20And%20Queue/dy.png)<br>
 每次触发调用的时候，都会将触发调用的点入栈。函数执行完了，查看系统栈有没有元素，若有则出栈跳转执行，若没有则程序执行完毕
 
-### 栈的实现
+## 栈的实现
 我们利用之前实现的[Array](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Arrays/README.md#java%E4%B8%8B%E5%AE%9A%E5%88%B6%E6%95%B0%E7%BB%84)类来实现栈<br>
 定义Stack接口
 ```
@@ -98,7 +97,7 @@ int getSize()      O(1)
 boolean isEmpty()  O(1)
 ```
 
-### 使用Java自带的栈实现括号匹配功能
+## 使用Java自带的栈实现括号匹配功能
 ```
 public static boolean isValid(String s){
         Stack<Character> stack = new Stack<>();
