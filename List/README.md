@@ -3,6 +3,8 @@
 * 链表则是一种真正的动态数据结构
 
 ![图片无法加载](https://github.com/Ywfy/Learning-Data-Structure/blob/master/List/lbb.png)<br>
+数组链表<br>
+![图片无法加载](https://github.com/Ywfy/Learning-Data-Structure/blob/master/List/szlb.png)<br>
 
 * 每个元素包含两个结点，一个是存储元素的数据域 (内存空间)，另一个是指向下一个结点地址的指针域
 * 链表是物理存储单元上非连续的、非顺序的存储结构，数据元素的逻辑顺序是通过链表的指针地址实现
