@@ -484,7 +484,8 @@ Head端不管是新增还是删除都很容易<br>
 新增一个指针来指向链表尾端，即Tail端。Tail端新增很容易，但是删除很难<br>
 结合这种特点，我们使用Head作为队首，Tail作为队尾，可以实现较为高效的队列结构<br>
 
-<strong>我们使用Java自带的LinkedList来实现</strong>
+<strong>我们使用Java自带的LinkedList来实现</strong><br>
+注：Java自带的LinkedList底层是一个循环双向链表
 ```
 public class LinkedListQueue<T> implements Queue<T> {
 
