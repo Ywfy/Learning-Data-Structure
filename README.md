@@ -7,9 +7,8 @@
   * [队列](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Stack%20And%20Queue/Queue.md)
   * [链表](https://github.com/Ywfy/Learning-Data-Structure/blob/master/List/README.md)(补充:[递归](https://github.com/Ywfy/Learning-Data-Structure/blob/master/List/Recursion.md))
   * [哈希表]()
-* [树]()
-  * [二叉树]()
-  * [二叉搜索树]()
+* [树]
+  * [二分搜索树]()
   * [线段树]()
   * [AVL(平衡二叉树)]()
   * [Trie字典树]()
