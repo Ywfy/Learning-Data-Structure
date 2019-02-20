@@ -17,7 +17,7 @@
   
 
 # 实现二分搜索树
-<strong>编写Node节点，完成添加功能</strong>
+## 编写Node节点，完成添加功能
 ```
 public class BST<T extends Comparable<T>> {
 
@@ -98,7 +98,7 @@ public class BST<T extends Comparable<T>> {
 
         if(t.compareTo(node.t) < 0)
            node.left = add(node.left, t);
-        else (t.compartTo(node.t) > 0)
+        else if(t.compartTo(node.t) > 0)
            node.right = add(node.right, t);
 
         return node;
@@ -110,7 +110,7 @@ public class BST<T extends Comparable<T>> {
 * 直到出现node==null，也就是到达了NULL节点，此时创建Node对象并返回 <---最基本情况 
 * 返回的Node对象被父节点所挂载
 
-<strong>添加“查询是否包含元素”功能</strong>
+## 添加“查询是否包含元素”功能
 ```
  //看二分搜索树中是否包含元素t
     public boolean contains(T t){
@@ -132,3 +132,117 @@ public class BST<T extends Comparable<T>> {
     }
 ```
 
+## 添加“遍历”功能
+遍历有三种方法：前序遍历、中序遍历、后序遍历
+### 前序遍历
+![无法加载图片](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Binary%20Search%20Tree/qx.png)<br>
+* 前序遍历：也就是先访问父节点，然后访问左子树和右子树
+* 前序遍历是最自然和最常用的遍历方式
+```
+//二分搜索树的前序遍历
+    public void preOrder(){
+        preOrder(root);
+    }
+
+    //前序遍历以node为根的二分搜索树，递归算法
+    private void preOrder(Node node){
+        if(node == null)
+            return;
+
+        System.out.println(node.t);
+        preOrder(node.left);
+        preOrder(node.right);
+    }
+```
+
+* 用前序遍历实现toString()方法
+```
+@Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        generateBSTString(root, 0, res);
+        return res.toString();
+    }
+
+    //生成以node为根节点，深度为depth的描述二叉树的字符串
+    public void generateBSTString(Node node, int depth, StringBuilder res){
+
+        if(node == null){
+            res.append(generateDepthString(depth) + "null\n");
+            return;
+        }
+
+        res.append(generateDepthString(depth) + node.t + "\n");
+        generateBSTString(node.left, depth + 1, res);
+        generateBSTString(node.right, depth + 1, res);
+    }
+
+    private String generateDepthString(int depth){
+        StringBuilder res = new StringBuilder();
+        for(int i = 0 ; i < depth; i++){
+            res.append("--");
+        }
+        return res.toString();
+    }
+```
+
+### 中序遍历
+<img src="https://github.com/Ywfy/Learning-Data-Structure/blob/master/Binary%20Search%20Tree/zx.png" width = "300" height = "300" div align=left /><br>
+区别很简单，先访问左子树，然后访问父节点，最后访问右子树<br>
+```
+ //二分搜索树的中序遍历
+    public void inOrder(){
+        inOrder(root);
+    }
+
+    //中序遍历以node为根的二分搜索树，递归算法
+    private void inOrder(Node node){
+        if(node == null)
+            return;
+
+        inOrder(node.left);
+        System.out.println(node.t);
+        inOrder(node.right);
+    }
+```
+* 二分搜索树的中序遍历结果是顺序的
+
+### 后序遍历
+![图片无法加载](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Binary%20Search%20Tree/hx.png)<br>
+先访问左子树，后访问右子树，最后访问节点内容
+```
+ //二分搜索树的后序遍历
+    public void postOrder(){
+        postOrder(root);
+    }
+
+    //后序遍历以node为根的二分搜索树，递归算法
+    private void postOrder(Node node){
+        if(node == null)
+            return;
+
+        postOrder(node.left);
+        postOrder(node.right);
+        System.out.println(node.t);
+    }
+```
+
+### 补充：二分搜索树的前序遍历的非递归实现
+```
+// 二分搜索树的非递归前序遍历
+    public void preOrderNR(){
+
+        Stack<Node> stack = new Stack<>();
+        stack.push(root);
+        while(!stack.isEmpty()){
+            Node cur = stack.pop();
+            System.out.println(cur.t);
+
+            if(cur.right != null)
+                stack.push(cur.right);
+            if(cur.left != null)
+                stack.push(cur.left);
+        }
+    }
+```
+中序遍历、后序遍历的非递归实现较复杂，实际应用不广，先不做讨论
