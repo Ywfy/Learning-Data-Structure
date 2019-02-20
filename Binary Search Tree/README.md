@@ -246,3 +246,161 @@ public class BST<T extends Comparable<T>> {
     }
 ```
 中序遍历、后序遍历的非递归实现较复杂，实际应用不广，先不做讨论
+
+### 层序遍历
+* 之前的前序遍历、中序遍历、后序遍历在执行时都会首先层层调用达到叶子节点，也就是最左边的一条。这叫做深度优先遍历
+* 相对的，还有另一种遍历方法：广度优先遍历,也叫层序遍历
+![无法加载图片](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Binary%20Search%20Tree/cx.png)<br>
+
+#### 借助队列完成二分搜索树的层序遍历
+![无法加载图片](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Binary%20Search%20Tree/cxyl.png)<br>
+* 根节点入队，第0层入队完毕，将根节点28出队，然后根节点28的两个子节点16、30入队(注意先入队左子节点)
+* 16出队，将16的子节点13、22入队；30出队，将30的子节点29、42入队。第二层入队完毕
+* 13出队，13是叶子节点故没有新元素入队，后面的22、29、42同理出队
+* 最终队列为空，层序遍历完毕
+
+<br>
+广度优先遍历的意义：
+* 更快的找到问题的解
+* 常用于算法设计中--无权图的最短路径
+
+## 添加“删除”功能
+### 删除二分搜索树的最小值和最大值
+* 由二分搜索树的定义和图，可以很明显的看出
+  * 二分搜索树的最小值也就是最左边的值
+  * 二分搜索树的最大值也就是最右边的值
+
+```
+ //返回二分搜索树的最小值
+    public T minimum(){
+        if(size == 0)
+            throw new IllegalArgumentException("BST is empty.");
+
+        return minimum(root).t;
+    }
+
+    //返回以node为根的二分搜索树的最小值所在的节点
+    private Node minimum(Node node){
+        if(node.left == null)
+            return node;
+        return minimum(node.left);
+    }
+
+    //查找二分搜索树的最大元素
+    public T maximum(){
+        if(size == 0)
+            throw new IllegalArgumentException("BST is empty.");
+
+        return maximum(root).t;
+    }
+
+    //返回以node为根的二分搜索树的最大值所在的节点
+    private Node maximum(Node node){
+        if(node.right == null)
+            return node;
+
+        return maximum(node.right);
+    }
+```
+
+删除最大值、最小值分两种情况：
+* 最大值、最小值处于叶子节点，这个时候很简单
+* 最大值、最小值所在节点不是叶子节点
+  * 对于最小值，会存在右子树，删除最小值所在节点后，需要将右子树上移挂载
+  * 对于最大值，会存在左子树，删除最大值所在节点后，需要将左子树上移挂载
+  
+```
+ //删除掉以node为根的二分搜索树中的最小节点
+    //返回删除节点后新的二分搜索树的根
+    private Node removeMin(Node node){
+        if(node.left == null){
+            Node rightNode = node.right;
+            node.right = null;
+            size--;
+            return rightNode;
+        }
+
+        node.left = removeMin(node.left);
+        return node;
+    }
+
+    //从二分搜索树中删除最大值所在的节点
+    public T removeMax(){
+        T ret = maximum();
+        root = removeMax(root);
+        return ret;
+    }
+
+    //删除掉以node为根的二分搜索树中的最大节点
+    //返回删除节点后新的二分搜索树的根
+    private Node removeMax(Node node){
+
+        if(node.right == null){
+            Node leftNode = node.left;
+            node.left = null;
+            size--;
+            return leftNode;
+        }
+
+        node.right = removeMax(node.right);
+        return node;
+    }
+```
+
+### 删除二分搜索树的任意元素
+* 只有左子树的节点，将节点删除，左子树上移挂载
+* 只有右子树的节点，将节点删除，右子树上移挂载
+* 同时有左子树和右子树，采用Hibbard Deletion
+  * 找比被删节点值大的最小的元素，也就是右子树的最小值
+  * 它仍然能满足二分搜索树的定义，而不致破坏结构
+  * 将这个右子树的最小值脱离，替换到被删节点的位置,也就是要和被删节点的左子节点、右子节点和父节点建立连接
+
+```
+ //从二分搜索树中删除元素为t的节点
+    public void remove(T t){
+        root = remove(root, t);
+    }
+
+    //删除以node为根的二分搜索树中值为t的节点，递归算法
+    //返回删除节点后新的二分搜索树的根
+    private Node remove(Node node, T t){
+
+        if(node == null)
+            return null;
+
+        if(t.compareTo(node.t) < 0){
+            node.left = remove(node.left, t);
+            return node;
+        }
+        else if(t.compareTo(node.t) > 0){
+            node.right = remove(node.right, t);
+            return node;
+        }
+        else{ //t.equals(node.t)
+            //待删除节点左子树为空的情况
+            if(node.left == null){
+                Node rightNode = node.right;
+                node.right = null;
+                size--;
+                return rightNode;
+            }
+            //待删除节点右子树为空的情况
+            if(node.right == null){
+                Node leftNode = node.left;
+                node.left = null;
+                size--;
+                return leftNode;
+            }
+            //待删除节点左右子树均不为空的情况
+            //找到比待删除节点大的最小节点，即待删除节点右子树的最小节点
+            //用这个最小节点顶替待删除节点的位置
+            Node successor = minimum(node.right);
+            successor.right = removeMin(node.right);
+            successor.left = node.left;
+
+            node.left = node.right = null;
+
+            return successor;
+        }
+    }
+```
