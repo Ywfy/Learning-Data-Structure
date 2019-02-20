@@ -8,7 +8,7 @@
   * [链表](https://github.com/Ywfy/Learning-Data-Structure/blob/master/List/README.md)(补充:[递归](https://github.com/Ywfy/Learning-Data-Structure/blob/master/List/Recursion.md))
   * [哈希表]()
 * 树
-  * [二分搜索树]()
+  * [二分搜索树](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Binary%20Search%20Tree/README.md)
   * [线段树]()
   * [AVL(平衡二叉树)]()
   * [Trie字典树]()
