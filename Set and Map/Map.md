@@ -377,3 +377,97 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
     }
 }
 ```
+运行很快，运行后马上就得到了结果
+
+## 基于链表和基于二分搜索树的Map性能比较
+通过以下测试代码
+```
+import java.util.ArrayList;
+
+public class Main {
+
+    private static double testMap(Map<String, Integer> map, String filename){
+        long startTime = System.nanoTime();
+
+        System.out.println(filename);
+        ArrayList<String> words = new ArrayList<>();
+        if(FileOperation.readFile(filename, words)){
+            System.out.println("Total words: " + words.size());
+
+            for(String word : words){
+                if(map.contains(word))
+                    map.set(word, map.get(word) + 1);
+                else
+                    map.add(word, 1);
+            }
+
+            System.out.println("Total different words: " + map.getSize());
+            System.out.println("Frequency of PRIDE: " + map.get("pride"));
+            System.out.println("Frequency of PREJUDICE: " + map.get("prejudice"));
+        }
+
+        long endTime = System.nanoTime();
+
+        return (endTime - startTime) / 1000000000.0;
+    }
+
+    public static void main(String[] args) {
+
+        String filename = "pride-and-prejudice.txt";
+
+        BSTMap<String, Integer> bstMap = new BSTMap<>();
+        double time1 = testMap(bstMap, filename);
+        System.out.println("BSTMap time: " + time1 + " s");
+
+        System.out.println();
+
+        LinkedListMap<String, Integer> linkedListMap = new LinkedListMap<>();
+        double time2 = testMap(linkedListMap, filename);
+        System.out.println("LinkedListMap time: " + time2 + " s");
+    }
+}
+```
+
+运行结果
+```
+pride-and-prejudice.txt
+Total words: 125901
+Total different words: 6530
+Frequency of PRIDE: 53
+Frequency of PREJUDICE: 11
+BSTMap time: 0.292592799 s
+
+pride-and-prejudice.txt
+Total words: 125901
+Total different words: 6530
+Frequency of PRIDE: 53
+Frequency of PREJUDICE: 11
+LinkedListMap time: 13.046384271 s
+```
+显然基于二分搜索树的性能是要大大优于基于链表的
+
+## 时间复杂度分析
+
+| |LinkedListMap|BSTMap|
+|:---|:---|:---|
+|增 add| O(n) | O(depth) --> 平均O(log(n)),最差O(n)
+|删 remove| O(n) | O(depth) --> 平均O(log(n)),最差O(n)
+|改 set| O(n) | O(depth) --> 平均O(log(n)),最差O(n)
+|查 get| O(n) | O(depth) --> 平均O(log(n)),最差O(n)
+|查 contains| O(n) | O(depth) --> 平均O(log(n)),最差O(n)
+
+## 扩展
+### 有序映射和无序映射
+* 有序映射中的键具有顺序性 <--基于搜索树的实现
+* 无序映射中的键没有顺序性 <--链表实现的性能太差，一般常用基于哈希表的实现
+
+### 多重映射
+* 多重映射的键可以重复
+
+### 集合(Set)和映射(Map)的关系
+集合(Set)和映射(Map)其实是没有什么太大的差别的，它们的区别就在于Set是存放的一个元素，而Map放的是(key-value)键值对<br>
+只要Map将value设为Null，是可以很轻易的实现Set的<br>
+而实际上，java的Collection框架中HashSet就是用HashMap实现的<br>
+* HashSet底层是采用HashMap实现的。HashSet 的实现比较简单，HashSet 的绝大部分方法都是通过调用 HashMap 的方法来实现的，因此 HashSet 和 HashMap 两个集合在实现本质上是相同的。
+* HashMap的key就是放进HashSet中对象，value是Object类型的。
+* 当调用HashSet的add方法时，实际上是向HashMap中增加了一行(key-value对)，该行的key就是向HashSet增加的那个对象，该行的value就是<strong>一个Object类型的常量</strong>
