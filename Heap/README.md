@@ -20,11 +20,12 @@
 
 ## 用数组实现堆
 ![无法加载图片](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Heap/sze.png)<br>
-根据完全二叉树的定义，完全能够将每个元素标号放到数组中
-且这个结构能够很容易地推出一个节点的父节点和左右子节点
+根据完全二叉树的定义，完全能够将每个元素顺序放到数组中<br>
+且这个结构能够很容易地推出一个节点的父节点和左右子节点<br>
   * 父节点：parent(i) = i/2
   * 左子节点：left child(i) = 2*i
   * 右子节点：right child(i) = 2*i + 1
+  
 当然，若是标号是从0开始的话，数组空间就不会浪费一个，不过公式要变一下
   * 父节点: parent(i) = (i-1)/2
   * 左子节点：left child(i) = 2*i
