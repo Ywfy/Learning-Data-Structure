@@ -79,7 +79,7 @@ public class MaxHeap<T extends Comparable<T>> {
 ![无法加载图片](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Heap/su.png)<br>
 元素添加流程：
 * 没满的底层从左向右补，故此时52补在16的下方，作为16的右子节点
-* 但是此时破坏了完全二叉树(大顶堆)的结构，因为52比16大
+* 但是此时破坏了大顶堆的结构，因为52比16大
 * 解决方法是：将52跟16换位，但是换完后52还是比父节点41大，故再继续换，52跟41换位
 * 换完后，52比父节点62小，故此时结构稳定，添加完毕
 
@@ -103,3 +103,154 @@ public class MaxHeap<T extends Comparable<T>> {
 
 ### 从堆中取出元素和Sift Down
 ![无法加载图片](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Heap/sd.png)<br>
+
+* 从堆中取出元素只能取出最大的元素，在上图中也就是62
+* 62被取出后，需要有新的元素来填坑，我们用编号最末的元素来填坑，在上图中也就是16，故将16赋给位置0，并删除末端的16
+* 16填坑后，不满足大顶堆的结构，因为16比两个子节点小
+* 解决方法：将16与其两个子节点进行比较，若16小于两个节点中的最大者，则将16与最大者交换位置，也就是和52交换位置
+* 交换后，仍不满足大顶堆的结构，重复上一步骤，与41交换位置
+* 交换后，16大于左子节点15，右子节点为空，成功满足大顶堆的结构,完毕
+
+![无法加载图片](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Heap/sd2.png)<br>
+这个流程是不断下沉的，故叫Sift Down(下沉)<br>
+
+```
+//查看堆中的最大元素
+    public T findMax(){
+        if(data.isEmpty())
+            throw new IllegalArgumentException("Can not findMax when heap is empty");
+        return data.get(0);
+    }
+
+    //取出堆中的最大元素
+    public T extractMax(){
+
+        T ret = findMax();
+
+        data.swap(0, data.getSize() - 1);
+        data.removeLast();
+        siftDown(0);
+
+        return ret;
+    }
+
+    private void siftDown(int k){
+
+        while(leftChild(k) < data.getSize()){
+
+            int j = leftChild(k);
+            if(j + 1 < data.getSize() &&
+                    data.get(j + 1).compareTo(data.get(j)) > 0){
+                j++;
+            }
+            //data[j]是 leftChild 和 rightChild 中的最大值
+            if(data.get(k).compareTo(data.get(j)) >= 0)
+                break;
+            else {
+                data.swap(k, j);
+                k = j;
+            }
+        }
+    }
+```
+
+### 时间复杂度分析
+add和extractMax实际上主要流程还是上浮和下沉的过程，所以复杂度显然都是O(log(n)),而且堆是完全二叉树，所以堆是永远不可能退化成链表的
+
+### 添加“replace”功能:取出最大元素后，放入一个新元素
+实现:
+* 第一种：可以先extractMax，再add，两次O(log(n))的操作
+* 第二种：可以直接将堆顶元素替换以后Sift Down，一次O(log(n))的操作
+
+```
+//取出堆中的最大元素，并且替换成元素t
+    public T replace(T t){
+
+        T ret = findMax();
+        data.set(0, t);
+        siftDown(0);
+        return ret;
+    }
+```
+
+### 添加“heapify”功能：将任意数组整理成堆的形状
+实现：
+* 第一种：直接不断add，就OK了，算法复杂度为O(nlog(n))
+* 第二种：
+    * 直接将数组排列成完全二叉树的形状
+    * 定位倒数第一个非叶子节点，也就是最后一个叶子节点的父节点，进行Sift Down操作
+    * 然后倒数第二个非叶子节点，进行Sift Down
+    * 第三个
+    * ...
+    * 直到根节点，此时就是大顶堆了
+    * 第二种的算法复杂度为O(n)
+ 
+```
+    public MaxHeap(T[] arr){
+
+        data = new Array<>(arr);
+        for(int i = parent(arr.length - 1) ; i >= 0 ; i--){
+            siftDown(i);
+        }
+    }
+```
+
+#### 测试两种实现的性能差别
+通过以下测试代码
+```
+import java.util.Random;
+
+public class Main {
+
+    private static double testHeap(Integer[] testData, boolean isHeapify){
+        long startTime = System.nanoTime();
+
+        MaxHeap<Integer> maxHeap;
+        if(isHeapify)
+            maxHeap = new MaxHeap<>(testData);
+        else{
+            maxHeap = new MaxHeap<>();
+            for(int num: testData)
+                maxHeap.add(num);
+        }
+
+        int[] arr = new int[testData.length];
+        for(int i = 0 ; i < testData.length ; i ++)
+            arr[i] = maxHeap.extractMax();
+
+        for(int i = 1 ; i < testData.length ; i ++)
+            if(arr[i-1] < arr[i])
+                throw new IllegalArgumentException("Error");
+        System.out.println("Test MaxHeap completed.");
+
+        long endTime = System.nanoTime();
+
+        return (endTime - startTime) / 1000000000.0;
+    }
+
+    public static void main(String[] args) {
+
+        int n = 1000000;
+
+        Random random = new Random();
+        Integer[] testData = new Integer[n];
+        for(int i = 0 ; i < n ; i++){
+            testData[i] = random.nextInt(Integer.MAX_VALUE);
+        }
+
+        double time1 = testHeap(testData, false);
+        System.out.println("Without heapify: " + time1 + " s");
+
+        double time2 = testHeap(testData, true);
+        System.out.println("With heapify: " + time2 + " s");
+    }
+}
+```
+
+运行结果是
+```
+Test MaxHeap completed.
+Without heapify: 1.32640666 s
+Test MaxHeap completed.
+With heapify: 0.922797623 s
+```
