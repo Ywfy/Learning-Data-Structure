@@ -292,3 +292,17 @@ public class PriorityQueue<T extends Comparable<T>> implements Queue<T> {
     }
 }
 ```
+
+注意：Java的Collection框架中PriorityQueue(优先队列)的内部实现是采用的最小堆,而且对于PriorityQueue，若是传入的类型不好修改实现Comparable接口，我们可以外部定义一个比较器，然后创建PriorityQueue的时候传入
+```
+    private class FreqComparator implements Comparator<Freq>{
+
+        @Override
+        public int compare(Freq a, Freq b){
+            return a.freq - b.freq;
+        }
+    }
+```
+```
+PriorityQueue<Freq> pq = new PriorityQueue<>(new FreqComparator());
+```
