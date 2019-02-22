@@ -255,3 +255,40 @@ Without heapify: 1.32640666 s
 Test MaxHeap completed.
 With heapify: 0.922797623 s
 ```
+
+## 基于堆的优先队列
+```
+public class PriorityQueue<T extends Comparable<T>> implements Queue<T> {
+
+    private MaxHeap<T> maxHeap;
+
+    public PriorityQueue(){
+        maxHeap = new MaxHeap<>();
+    }
+
+    @Override
+    public int getSize() {
+        return maxHeap.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return maxHeap.isEmpty();
+    }
+
+    @Override
+    public void enqueue(T t) {
+        maxHeap.add(t);
+    }
+
+    @Override
+    public T dequeue() {
+        return maxHeap.extractMax();
+    }
+
+    @Override
+    public T getFront() {
+        return maxHeap.findMax();
+    }
+}
+```
