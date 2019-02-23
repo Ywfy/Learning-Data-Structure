@@ -12,7 +12,7 @@
   * [堆](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Heap/README.md)
   * [线段树](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Segment%20tree/README.md)
   * [Trie字典树](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Trie/README.md)
-  * [并查集]()
+  * [并查集](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Union%20Find/README.md)
   * [AVL(平衡二叉树)]()
   * [红黑树]()
 * [图]
