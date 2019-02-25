@@ -119,8 +119,7 @@ public class Student {
         //java的Object类自带有hashCode的实现，是根据对象地址计算的
         Student stu2 = new Student(3, 3, "yw", "Lg");
         System.out.println(stu2.hashCode());
-···
-
+```
 
 ## 哈希冲突的处理——链地址法(Seperate Chaining)
 ![无法加载图片](https://github.com/Ywfy/Learning-Data-Structure/blob/master/hash%20table/Image/10.png)<br>
