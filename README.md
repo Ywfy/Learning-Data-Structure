@@ -1,5 +1,7 @@
 # 数据结构学习总结
-本人学习慕课网《玩儿转数据结构》课程的总结笔记
+本人学习慕课网《玩儿转数据结构》课程的总结笔记<br>
+[官方代码仓直通车](https://github.com/liuyubobobo/Play-with-Data-Structures)<br>
+
 * [概念简介](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Introduction.md)
 * 线性
   * [数组](https://github.com/Ywfy/Learning-Data-Structure/blob/master/Arrays/README.md)
